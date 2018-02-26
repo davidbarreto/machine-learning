@@ -20,6 +20,6 @@ public class Feature<T extends Number> {
 
 	@Override
 	public String toString() {
-		return "Feature [value=" + value + "]";
+		return "Feature [" + value + "]";
 	}
 }

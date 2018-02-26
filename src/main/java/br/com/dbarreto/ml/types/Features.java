@@ -32,6 +32,6 @@ public class Features {
 
 	@Override
 	public String toString() {
-		return "Features [features=" + features + "]";
+		return "Features [" + features + "]";
 	}
 }

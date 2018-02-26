@@ -3,6 +3,9 @@ package br.com.dbarreto.ml;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import br.com.dbarreto.ml.algorithm.Classifier;
 import br.com.dbarreto.ml.algorithm.knn.KNearestNeighborns;
 import br.com.dbarreto.ml.types.Data;
@@ -10,13 +13,17 @@ import br.com.dbarreto.ml.types.Label;
 import br.com.dbarreto.ml.util.FileUtils;
 
 public class Main {
+	
+	private static Logger logger = LogManager.getLogger(Main.class);
 
 	public static void main(String[] args) throws IOException {
 
 		//Get the data
-		Data trainingData = FileUtils.parseCSVFile("/home/dbarreto/git/MachineLearning/src/main/resources/training-data.csv");
-		Data testData = FileUtils.parseCSVFile("/home/dbarreto/git/MachineLearning/src/main/resources/test-data-no-label.csv");
-		Data ans = FileUtils.parseCSVFile("/home/dbarreto/git/MachineLearning/src/main/resources/test-data.csv");
+		ClassLoader loader = Main.class.getClassLoader();
+		
+		Data trainingData = FileUtils.parseCSVFile(loader.getResource("training-data.csv").getPath());
+		Data testData = FileUtils.parseCSVFile(loader.getResource("test-data-no-label.csv").getPath());
+		Data ans = FileUtils.parseCSVFile(loader.getResource("test-data.csv").getPath());
 		
 		//Call the classifier
 		Classifier classifier = new KNearestNeighborns(5);
@@ -36,6 +43,6 @@ public class Main {
 		//Calculate the accuracy
 		double accuracy = ((double) count) / labels.size();
 		
-		System.out.println("Accuracy = " + accuracy);
+		logger.info("Accuracy = {}", accuracy);
 	}
 }
